@@ -1,0 +1,88 @@
+#!/usr/bin/perl
+
+#
+# Copyright (C) 2015 Nethesis S.r.l.
+# http://www.nethesis.it - support@nethesis.it
+# 
+# This script is part of NethServer.
+# 
+# NethServer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License,
+# or any later version.
+# 
+# NethServer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with NethServer.  If not, see <http://www.gnu.org/licenses/>.
+#
+
+use strict;
+use NethServer::Password;
+
+# check if ocsweb db exists
+if ( -d '/var/lib/mysql/ocsweb' ) {
+    exit 0;
+}
+
+# generate random db pass
+my $db_pass = NethServer::Password::store('myservice');
+
+# create ocsweb db and user
+my $cmd = join("\n",
+          "create database ocsweb;",
+          "grant all privileges on ocsweb.* to 'ocs'\@'localhost' identified by '$db_pass';",
+          "flush privileges;"). "\n";
+
+open(my $fh, '|-', '/usr/bin/mysql -B -f 2> /dev/null') || die("Could not connect to mysql");
+print $fh $cmd;
+close ($fh) || die("Could not connect to mysql");
+
+# populate db with ocs dump
+my $ocsbase_file = '/usr/share/ocsinventory-reports/ocsreports/files/ocsbase_new.sql';
+(-r $ocsbase_file) or die 'Can\'t populate db';
+
+open my $fh, '<', $ocsbase_file;
+my @dump_arr = <$fh>;
+close $fh;
+my $dump = join '', @dump_arr;
+
+open(my $fh, '|-', '/usr/bin/mysql ocsweb -B -f 2> /dev/null') || die("Could not connect to mysql");
+print $fh $dump;
+close ($fh) || die("Could not connect to mysql");
+
+# Modify db password
+my $ocsinventory_conf_file = '/etc/httpd/conf.d/ocsinventory-server.conf';
+(-w $ocsinventory_conf_file) or die "Can't write to $ocsinventory_conf_file";
+
+open my $fh, "<", $ocsinventory_conf_file;
+my @lines = <$fh>;
+close $fh;
+
+open my $fh, ">", $ocsinventory_conf_file;
+foreach (@lines) {
+    $_ =~ s/(OCS_DB_PWD).*/\1 $db_pass/;
+    print $fh $_;
+}
+close $fh;
+
+# Write params into dbconfig.inc.php
+my $dbconfig_file = '/etc/ocsinventory/ocsinventory-reports/dbconfig.inc.php';
+(-w $dbconfig_file) or die "Can't write to $dbconfig_file";
+
+open my $fh, ">", $dbconfig_file;
+my $content = <<'END';
+<?php
+define("DB_NAME", "ocsweb");
+define("SERVER_READ", "localhost");
+define("SERVER_WRITE", "localhost");
+define("COMPTE_BASE", "ocs");
+END
+
+print $fh $content;
+print $fh "define(\"PSWD_BASE\", \"$db_pass\");\n?>";
+
+close $fh;
