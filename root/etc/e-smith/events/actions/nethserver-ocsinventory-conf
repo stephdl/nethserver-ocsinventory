@@ -31,7 +31,7 @@ if ( -d '/var/lib/mysql/ocsweb' ) {
 }
 
 # generate random db pass
-my $db_pass = NethServer::Password::store('myservice');
+my $db_pass = NethServer::Password::store('ocsinventory');
 
 # create ocsweb db and user
 my $cmd = join("\n",
