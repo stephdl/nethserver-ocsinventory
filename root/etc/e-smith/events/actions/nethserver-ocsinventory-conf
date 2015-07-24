@@ -55,36 +55,3 @@ my $dump = join '', @dump_arr;
 open(my $fh, '|-', '/usr/bin/mysql ocsweb -B -f 2> /dev/null') || die("Could not connect to mysql");
 print $fh $dump;
 close ($fh) || die("Could not connect to mysql");
-
-# Modify db password
-my $ocsinventory_conf_file = '/etc/httpd/conf.d/ocsinventory-server.conf';
-(-w $ocsinventory_conf_file) or die "Can't write to $ocsinventory_conf_file";
-
-open my $fh, "<", $ocsinventory_conf_file;
-my @lines = <$fh>;
-close $fh;
-
-open my $fh, ">", $ocsinventory_conf_file;
-foreach (@lines) {
-    $_ =~ s/(OCS_DB_PWD).*/\1 $db_pass/;
-    print $fh $_;
-}
-close $fh;
-
-# Write params into dbconfig.inc.php
-my $dbconfig_file = '/etc/ocsinventory/ocsinventory-reports/dbconfig.inc.php';
-(-w $dbconfig_file) or die "Can't write to $dbconfig_file";
-
-open my $fh, ">", $dbconfig_file;
-my $content = <<'END';
-<?php
-define("DB_NAME", "ocsweb");
-define("SERVER_READ", "localhost");
-define("SERVER_WRITE", "localhost");
-define("COMPTE_BASE", "ocs");
-END
-
-print $fh $content;
-print $fh "define(\"PSWD_BASE\", \"$db_pass\");\n?>";
-
-close $fh;

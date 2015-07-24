@@ -1,0 +1,23 @@
+#
+# 10base
+#
+Alias /ocsreports /usr/share/ocsinventory-reports/ocsreports
+Alias /download /var/lib/ocsinventory-reports/download
+<Directory /usr/share/ocsinventory-reports/ocsreports>
+    # By default, users can use console from everywhere
+    <IfModule mod_authz_core.c>
+        Require all granted
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order deny,allow
+        Allow from all
+    </IfModule>
+
+    Options Indexes FollowSymLinks
+    DirectoryIndex index.php
+    php_flag file_uploads on
+    php_value post_max_size 51M
+    php_value upload_max_filesize 50M
+</Directory>
+
+

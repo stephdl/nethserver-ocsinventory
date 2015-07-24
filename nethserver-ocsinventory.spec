@@ -23,6 +23,8 @@ Install and configure an OCS Inventory NG instance on NethServer
 %build
 %{makedocs}
 perl createlinks
+mkdir -p root/etc/e-smith/templates/etc/ocsinventory/ocsinventory-reports/dbconfig.inc.php
+ln -s /etc/e-smith/templates-default/template-begin-php root/etc/e-smith/templates/etc/ocsinventory/ocsinventory-reports/dbconfig.inc.php/template-begin
 
 %install
 rm -rf %{buildroot}
