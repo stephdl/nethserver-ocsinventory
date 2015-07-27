@@ -24,6 +24,7 @@ use esmith::Build::CreateLinks  qw(:all);
 
 event_templates('nethserver-ocsinventory-update', qw(
     /etc/httpd/conf.d/ocsinventory-reports.conf
+    /etc/httpd/conf.d/ocsinventory-server.conf
     /etc/ocsinventory/ocsinventory-reports/dbconfig.inc.php
 ));
 

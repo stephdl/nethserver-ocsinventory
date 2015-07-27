@@ -1,0 +1,94 @@
+############ DO NOT MODIFY BELOW ! #######################
+
+  # External modules
+  PerlModule Apache::DBI
+  PerlModule Compress::Zlib
+  PerlModule XML::Simple
+
+  # Ocs plugins
+  PerlModule Apache::Ocsinventory::Plugins
+
+  # Ocs
+  PerlModule Apache::Ocsinventory
+  PerlModule Apache::Ocsinventory::Server::Constants
+  PerlModule Apache::Ocsinventory::Server::System
+  PerlModule Apache::Ocsinventory::Server::Communication
+  PerlModule Apache::Ocsinventory::Server::Inventory
+  PerlModule Apache::Ocsinventory::Server::Duplicate
+
+  # Capacities
+  PerlModule Apache::Ocsinventory::Server::Capacities::Registry
+  PerlModule Apache::Ocsinventory::Server::Capacities::Update
+  PerlModule Apache::Ocsinventory::Server::Capacities::Ipdiscover
+  PerlModule Apache::Ocsinventory::Server::Capacities::Download
+  PerlModule Apache::Ocsinventory::Server::Capacities::Notify
+  PerlModule Apache::Ocsinventory::Server::Capacities::Snmp
+  # This module guides you through the module creation
+  # PerlModule Apache::Ocsinventory::Server::Capacities::Example
+  # This module adds some rules to filter some request sent to ocs server in the prolog and inventory stages
+  # PerlModule Apache::Ocsinventory::Server::Capacities::Filter
+  # This module add availibity to filter data from HARDWARE section (data filtered won't be stored in database)
+  # PerlModule Apache::Ocsinventory::Server::Capacities::Datafilter
+
+  # PerlTaintCheck On
+
+  # SSL apache settings
+  #SSLEngine "SSL_ENABLE"
+  #SSLCertificateFile "SSL_CERTIFICATE_FILE"
+  #SSLCertificateKeyFile "SSL_CERTIFICATE_KEY_FILE"
+  #SSLCACertificateFile "SSL_CERTIFICATE_FILE"
+  #SSLCACertificatePath "SSL_CERTIFICATE_PATH"
+  #SSLVerifyClient "SSL_VALIDATE_CLIENT"
+
+  # Engine apache settings
+  # "Virtual" directory for handling OCS Inventory NG agents communications
+  # Be careful, do not create such directory into your web server root document !
+  <Location /ocsinventory>
+	# If you protect this area you have to deal with http_auth_* agent's parameters
+	# AuthType Basic
+	# AuthName "OCS Inventory agent area"
+	# AuthUserFile "/etc/ocsinventory/ocsinventory-server/htpasswd"
+
+	<IfModule mod_authz_core.c>
+		<RequireAll>
+			Require all granted
+			# Require valid-user
+		</RequireAll>
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+		Order deny,allow
+		Allow from all
+		# Require valid-user
+	</IfModule>
+
+
+        SetHandler perl-script
+        PerlHandler Apache::Ocsinventory
+  </Location>
+
+  # Web service apache settings
+  PerlModule Apache::Ocsinventory::SOAP
+
+  <location /ocsinterface>
+        SetHandler perl-script
+        PerlHandler "Apache::Ocsinventory::SOAP"
+
+       	AuthType Basic
+	AuthName "OCS Inventory SOAP Area"
+	# Use htpasswd to create/update soap-user (or another granted user)
+	AuthUserFile "/etc/ocsinventory/ocsinventory-server/htpasswd"
+
+        # By default, you can query web service from everywhere with a valid user
+	<IfModule mod_authz_core.c>
+		<RequireAll>
+			Require all granted
+			Require valid-user
+		</RequireAll>
+	</IfModule>
+	<IfModule !mod_authz_core.c>
+		Order deny,allow
+		Allow from all
+		Require valid-user
+	</IfModule>
+  </location>
+
