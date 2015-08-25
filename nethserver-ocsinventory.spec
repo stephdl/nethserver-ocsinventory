@@ -1,5 +1,5 @@
 Name: nethserver-ocsinventory
-Version: 0.0.1
+Version: 1.0.0
 Release: 1%{?dist}
 Summary: Conifigure OCS Inventory NG
 Source: %{name}-%{version}.tar.gz
@@ -36,5 +36,8 @@ rm -rf %{buildroot}
 %doc COPYING
 
 %changelog
+* Tue Aug 25 2015 Davide Principi <davide.principi@nethesis.it> - 1.0.0-1
+- Initial OCS Inventory NG package - Feature #3230 [NethServer]
+
 * Wed Jul 22 2015 Giovanni Bezicheri <giovanni.bezicheri@nethesis.it>
 - Initial version
