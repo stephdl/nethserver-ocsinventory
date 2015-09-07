@@ -33,25 +33,14 @@ if ( -d '/var/lib/mysql/ocsweb' ) {
 # generate random db pass
 my $db_pass = NethServer::Password::store('ocsinventory');
 
-# create ocsweb db and user
-my $cmd = join("\n",
-          "create database ocsweb;",
-          "grant all privileges on ocsweb.* to 'ocs'\@'localhost' identified by '$db_pass';",
-          "flush privileges;"). "\n";
+open(my $fh, '|-', '/usr/bin/mysql -B') || die("[ERROR] Could not open mysql process");
+print $fh qq(
+create database ocsweb;
+grant all privileges on ocsweb.* to 'ocs'\@'localhost' identified by '$db_pass';
+flush privileges;
+use ocsweb
+\\. /usr/share/ocsinventory-reports/ocsreports/files/ocsbase_new.sql
+update operators set passwd='!!' where id='admin';
+);
+close ($fh) || die("[ERROR] ocs inventory DB initialization FAILED");
 
-open(my $fh, '|-', '/usr/bin/mysql -B -f 2> /dev/null') || die("Could not connect to mysql");
-print $fh $cmd;
-close ($fh) || die("Could not connect to mysql");
-
-# populate db with ocs dump
-my $ocsbase_file = '/usr/share/ocsinventory-reports/ocsreports/files/ocsbase_new.sql';
-(-r $ocsbase_file) or die 'Can\'t populate db';
-
-open my $fh, '<', $ocsbase_file;
-my @dump_arr = <$fh>;
-close $fh;
-my $dump = join '', @dump_arr;
-
-open(my $fh, '|-', '/usr/bin/mysql ocsweb -B -f 2> /dev/null') || die("Could not connect to mysql");
-print $fh $dump;
-close ($fh) || die("Could not connect to mysql");

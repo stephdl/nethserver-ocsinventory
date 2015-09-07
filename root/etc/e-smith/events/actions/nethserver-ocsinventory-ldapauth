@@ -17,22 +17,11 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with NethServer.  If not, see COPYING.
+# along with NethServer.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-use esmith::Build::CreateLinks  qw(:all);
+use strict;
+use NethServer::Directory;
 
-event_templates('nethserver-ocsinventory-update', qw(
-    /etc/httpd/conf.d/ocsinventory-reports.conf
-    /etc/httpd/conf.d/ocsinventory-server.conf
-    /etc/ocsinventory/ocsinventory-reports/dbconfig.inc.php
-));
+NethServer::Directory->new()->configServiceAccount('ocsinventory', NethServer::Directory::FIELDS_READ) || die("Failed to register ocsinventory service account");
 
-event_actions('nethserver-ocsinventory-update', qw(
-   nethserver-ocsinventory-conf 40
-   nethserver-ocsinventory-ldapauth 50
-));
-
-event_services('nethserver-ocsinventory-update', qw(
-   httpd restart
-));

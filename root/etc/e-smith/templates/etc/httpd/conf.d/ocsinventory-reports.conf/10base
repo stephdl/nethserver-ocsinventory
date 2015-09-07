@@ -18,6 +18,17 @@ Alias /download /var/lib/ocsinventory-reports/download
     php_flag file_uploads on
     php_value post_max_size 51M
     php_value upload_max_filesize 50M
+
+    SSLRequireSSL
+    AuthType Basic
+    AuthName "NethServer LDAP"
+    AuthBasicProvider ldap
+    AuthLDAPBindDN cn=ocsinventory,dc=directory,dc=nh
+    AuthLDAPBindPassword { NethServer::Password::store('ocsinventory') }
+    AuthLDAPURL "ldap://localhost/ou=People,dc=directory,dc=nh?uid?sub?(objectClass=posixAccount)"
+    Require user admin
+    Satisfy all
+
 </Directory>
 
 
