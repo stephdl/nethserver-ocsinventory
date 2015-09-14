@@ -1,5 +1,5 @@
 Name: nethserver-ocsinventory
-Version: 1.0.0
+Version: 1.0.1
 Release: 1%{?dist}
 Summary: Conifigure OCS Inventory NG
 Source: %{name}-%{version}.tar.gz
@@ -36,6 +36,9 @@ rm -rf %{buildroot}
 %doc COPYING
 
 %changelog
+* Mon Sep 14 2015 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 1.0.1-1
+- OCS Inventory LDAP authentication - Enhancement #3250 [NethServer]
+
 * Tue Aug 25 2015 Davide Principi <davide.principi@nethesis.it> - 1.0.0-1
 - Initial OCS Inventory NG package - Feature #3230 [NethServer]
 
