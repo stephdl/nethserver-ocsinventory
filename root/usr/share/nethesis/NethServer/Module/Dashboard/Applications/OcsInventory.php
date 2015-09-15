@@ -36,7 +36,7 @@ class OcsInventory extends \Nethgui\Module\AbstractModule implements \NethServer
     {
         $host = explode(':',$_SERVER['HTTP_HOST']);
         return array(
-            'url' => "http://".$host[0]."/ocsreports/"
+            'url' => "https://".$host[0]."/ocsreports/"
         );
     }
 }
