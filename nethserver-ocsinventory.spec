@@ -10,6 +10,7 @@ License: GPL
 BuildRequires: nethserver-devtools
 
 Requires: nethserver-httpd
+Requires: mod_ldap
 Requires: nethserver-mysql
 Requires: nethserver-samba
 Requires: ocsinventory
@@ -34,6 +35,7 @@ rm -rf %{buildroot}
 %files -f %{name}-%{version}-filelist
 %defattr(-,root,root)
 %doc COPYING
+%dir %{_nseventsdir}/%{name}-update
 
 %changelog
 * Mon Sep 14 2015 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 1.0.1-1
