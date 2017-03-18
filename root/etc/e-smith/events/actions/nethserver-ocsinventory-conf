@@ -40,7 +40,6 @@ grant all privileges on ocsweb.* to 'ocs'\@'localhost' identified by '$db_pass';
 flush privileges;
 use ocsweb
 \\. /usr/share/ocsinventory-reports/ocsreports/files/ocsbase_new.sql
-update operators set passwd='!!' where id='admin';
 );
 close ($fh) || die("[ERROR] ocs inventory DB initialization FAILED");
 

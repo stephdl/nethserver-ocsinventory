@@ -26,9 +26,11 @@ event_templates('nethserver-ocsinventory-update', qw(
     /etc/httpd/conf.d/ocsinventory-reports.conf
     /etc/httpd/conf.d/ocsinventory-server.conf
     /etc/ocsinventory/ocsinventory-reports/dbconfig.inc.php
+    /etc/httpd/conf.d/default-virtualhost.inc
 ));
 
 event_actions('nethserver-ocsinventory-update', qw(
+  initialize-default-databases 00
    nethserver-ocsinventory-conf 40
    nethserver-ocsinventory-ldapauth 50
 ));

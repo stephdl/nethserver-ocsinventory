@@ -21,7 +21,7 @@ namespace NethServer\Module\Dashboard\Applications;
  */
 
 /**
- * Adagios web interface
+ * ocsinventory web interface
  *
  */
 class OcsInventory extends \Nethgui\Module\AbstractModule implements \NethServer\Module\Dashboard\Interfaces\ApplicationInterface
@@ -34,9 +34,10 @@ class OcsInventory extends \Nethgui\Module\AbstractModule implements \NethServer
 
     public function getInfo()
     {
+        $name = $this->getPlatform()->getDatabase('configuration')->getProp('ocsinventory','Name');
         $host = explode(':',$_SERVER['HTTP_HOST']);
         return array(
-            'url' => "https://".$host[0]."/ocsreports/"
+            'url' => "https://".$host[0]."/$name"
         );
     }
 }

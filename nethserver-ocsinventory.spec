@@ -1,5 +1,5 @@
 Name: nethserver-ocsinventory
-Version: 1.0.1
+Version: 1.1.2
 Release: 1%{?dist}
 Summary: Conifigure OCS Inventory NG
 Source: %{name}-%{version}.tar.gz
@@ -10,7 +10,6 @@ License: GPL
 BuildRequires: nethserver-devtools
 
 Requires: nethserver-httpd
-Requires: mod_ldap
 Requires: nethserver-mysql
 Requires: nethserver-samba
 Requires: ocsinventory
@@ -38,6 +37,9 @@ rm -rf %{buildroot}
 %dir %{_nseventsdir}/%{name}-update
 
 %changelog
+* Sat Mar 18 2017 stephane de Labrusse <stephdl@de-labrusse.fr> 1.1.2.ns7
+- First release to NS7
+
 * Mon Sep 14 2015 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 1.0.1-1
 - OCS Inventory LDAP authentication - Enhancement #3250 [NethServer]
 
