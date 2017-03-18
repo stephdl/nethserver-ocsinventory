@@ -1,5 +1,5 @@
 Name: nethserver-ocsinventory
-Version: 1.0.1
+Version: 1.1.1
 Release: 1%{?dist}
 Summary: Conifigure OCS Inventory NG
 Source: %{name}-%{version}.tar.gz
@@ -14,6 +14,7 @@ Requires: mod_ldap
 Requires: nethserver-mysql
 Requires: nethserver-samba
 Requires: ocsinventory
+Requires: mod_authnz_pam
 
 %description
 Install and configure an OCS Inventory NG instance on NethServer

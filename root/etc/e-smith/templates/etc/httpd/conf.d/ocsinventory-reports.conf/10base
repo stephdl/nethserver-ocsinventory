@@ -1,7 +1,16 @@
+{
+
+my $allow = (($ocsinventory{'access'} || 'private') eq 'public') ? 'all granted':"ip $localAccess";
+my $status = $ocsinventory{'status'} || "disabled";
+my $name = $ocsinventory{'Name'} || 'ocsreports';
+
+return '#ocsinventory disabled by its status property' unless ($status eq 'enabled');
+
+$OUT .= << EOF
 #
 # 10base
 #
-Alias /ocsreports /usr/share/ocsinventory-reports/ocsreports
+Alias /$name /usr/share/ocsinventory-reports/ocsreports
 Alias /download /var/lib/ocsinventory-reports/download
 <Directory /usr/share/ocsinventory-reports/ocsreports>
     Options Indexes FollowSymLinks
@@ -9,17 +18,16 @@ Alias /download /var/lib/ocsinventory-reports/download
     php_flag file_uploads on
     php_value post_max_size 51M
     php_value upload_max_filesize 50M
-
+    
     SSLRequireSSL
     AuthType Basic
-    AuthName "NethServer LDAP"
-    AuthBasicProvider ldap
-    AuthLDAPBindDN cn=ocsinventory,dc=directory,dc=nh
-    AuthLDAPBindPassword { NethServer::Password::store('ocsinventory') }
-    AuthLDAPURL "ldap://localhost/ou=People,dc=directory,dc=nh?uid?sub?(objectClass=posixAccount)"
+    AuthName "OcsInventory"
+    AuthBasicProvider PAM
+    AuthPAMService ocsinventory
     Require user admin
+    Require $allow 
     Satisfy all
 
 </Directory>
-
-
+EOF
+}
