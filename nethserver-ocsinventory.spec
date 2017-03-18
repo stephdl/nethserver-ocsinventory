@@ -1,5 +1,5 @@
 Name: nethserver-ocsinventory
-Version: 1.1.3
+Version: 1.1.4
 Release: 1%{?dist}
 Summary: Configure OCS Inventory NG
 Source: %{name}-%{version}.tar.gz
@@ -11,7 +11,7 @@ BuildRequires: nethserver-devtools
 
 Requires: nethserver-httpd
 Requires: nethserver-mysql
-Requires: ocsinventory
+Requires: ocsinventory >= 2.3.0
 
 %description
 Install and configure an OCS Inventory NG instance on NethServer
@@ -36,6 +36,9 @@ rm -rf %{buildroot}
 %dir %{_nseventsdir}/%{name}-update
 
 %changelog
+* Mon Mar 20 2017 stephane de Labrusse <stephdl@de-labrusse.fr> 1.1.4.ns7
+- Upgrade to ocsinventory 2.3.0
+
 * Sat Mar 18 2017 stephane de Labrusse <stephdl@de-labrusse.fr> 1.1.3.ns7
 - First release to NS7
 
