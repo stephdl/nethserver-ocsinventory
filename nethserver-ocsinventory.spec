@@ -1,7 +1,7 @@
 Name: nethserver-ocsinventory
 Version: 1.1.2
 Release: 1%{?dist}
-Summary: Conifigure OCS Inventory NG
+Summary: Configure OCS Inventory NG
 Source: %{name}-%{version}.tar.gz
 BuildArch: noarch
 URL: %{url_prefix}/%{name}
@@ -11,7 +11,6 @@ BuildRequires: nethserver-devtools
 
 Requires: nethserver-httpd
 Requires: nethserver-mysql
-Requires: nethserver-samba
 Requires: ocsinventory
 
 %description
