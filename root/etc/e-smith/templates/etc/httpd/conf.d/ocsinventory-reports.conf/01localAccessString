@@ -1,4 +1,4 @@
-i{
+{
     #---------------------------------------------------------------------
     # Grab ValidFrom access list property of httpd-admin
     # SSL enabled virtual hosts should only allow access from IP's in
