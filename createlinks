@@ -30,6 +30,7 @@ event_templates('nethserver-ocsinventory-update', qw(
 ));
 
 event_actions('nethserver-ocsinventory-update', qw(
+  initialize-default-databases 00
    nethserver-ocsinventory-conf 40
    nethserver-ocsinventory-ldapauth 50
 ));

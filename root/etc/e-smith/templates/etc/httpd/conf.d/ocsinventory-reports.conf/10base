@@ -6,7 +6,7 @@ my $name = $ocsinventory{'Name'} || 'ocsreports';
 
 return '#ocsinventory disabled by its status property' unless ($status eq 'enabled');
 
-$OUT .= << EOF
+$OUT .= <<EOF
 #
 # 10base
 #
