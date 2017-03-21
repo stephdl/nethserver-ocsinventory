@@ -23,7 +23,7 @@
 use strict;
 use NethServer::Password;
 
-chmod 0600, '/usr/share/ocsinventory-reports/ocsreports/install.php';
+unlink '/usr/share/ocsinventory-reports/ocsreports/install.php';
 
 # check if ocsweb db exists
 if ( -d '/var/lib/mysql/ocsweb' ) {
