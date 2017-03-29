@@ -1,6 +1,6 @@
 Name: nethserver-ocsinventory
-Version: 1.1.4
-Release: 2%{?dist}
+Version: 1.1.5
+Release: 1%{?dist}
 Summary: Configure OCS Inventory NG
 Source: %{name}-%{version}.tar.gz
 BuildArch: noarch
@@ -36,6 +36,9 @@ rm -rf %{buildroot}
 %dir %{_nseventsdir}/%{name}-update
 
 %changelog
+* Wed Mar 29 2017 Stephane de Labrusse <stephdl@de-labrusse.fr> 1.1.5-1.ns7
+- Template expansion on trusted-network
+
 * Mon Mar 20 2017 stephane de Labrusse <stephdl@de-labrusse.fr> 1.1.4-2.ns7
 - Upgrade to ocsinventory 2.3.0
 

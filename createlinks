@@ -35,5 +35,9 @@ event_actions('nethserver-ocsinventory-update', qw(
 ));
 
 event_services('nethserver-ocsinventory-update', qw(
-   httpd restart
+   httpd reload
 ));
+
+
+my $event = 'trusted-networks-modify';
+templates2events("/etc/httpd/conf.d/ocsinventory-reports.conf", $event);
