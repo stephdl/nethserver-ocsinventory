@@ -1,5 +1,5 @@
 Name: nethserver-ocsinventory
-Version: 1.1.5
+Version: 1.1.6
 Release: 1%{?dist}
 Summary: Configure OCS Inventory NG
 Source: %{name}-%{version}.tar.gz
@@ -36,6 +36,9 @@ rm -rf %{buildroot}
 %dir %{_nseventsdir}/%{name}-update
 
 %changelog
+* Sun Sep 10 2017 Stephane de Labrusse <stephdl@de-labrusse.fr> 0.1.6-1.ns7
+- Restart httpd service on trusted-network
+
 * Wed Mar 29 2017 Stephane de Labrusse <stephdl@de-labrusse.fr> 1.1.5-1.ns7
 - Template expansion on trusted-network
 
