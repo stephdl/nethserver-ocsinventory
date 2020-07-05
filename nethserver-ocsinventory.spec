@@ -1,5 +1,5 @@
 Name: nethserver-ocsinventory
-Version: 1.1.7
+Version: 1.1.8
 Release: 1%{?dist}
 Summary: Configure OCS Inventory NG
 Source: %{name}-%{version}.tar.gz
@@ -35,7 +35,15 @@ rm -rf %{buildroot}
 %doc COPYING
 %dir %{_nseventsdir}/%{name}-update
 
+%postun
+/usr/bin/rm -f /etc/httpd/conf.d/ocsinventory-reports.conf
+/usr/bin/rm -f /etc/httpd/conf.d/ocsinventory-server.conf
+/usr/bin/systemctl reload httpd
+
 %changelog
+* Sun Jul 05 2020 stephane de Labrusse <stephdl@de-labrusse.fr> 1.1.8
+- Remove http templates after rpm removal
+
 * Wed Jun 5 2019 Stephane de Labrusse  <stephdl@de-labrusse.fr> - 1.1.7
 - Enable ocsinventory repo with  software-repos-save
 
