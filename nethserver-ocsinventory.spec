@@ -1,6 +1,6 @@
 Name: nethserver-ocsinventory
 Version: 1.1.8
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: Configure OCS Inventory NG
 Source: %{name}-%{version}.tar.gz
 BuildArch: noarch
@@ -36,9 +36,11 @@ rm -rf %{buildroot}
 %dir %{_nseventsdir}/%{name}-update
 
 %postun
-/usr/bin/rm -f /etc/httpd/conf.d/ocsinventory-reports.conf
-/usr/bin/rm -f /etc/httpd/conf.d/ocsinventory-server.conf
-/usr/bin/systemctl reload httpd
+if [ $1 == 0 ] ; then
+    /usr/bin/rm -f /etc/httpd/conf.d/ocsinventory-reports.conf
+    /usr/bin/rm -f /etc/httpd/conf.d/ocsinventory-server.conf
+    /usr/bin/systemctl reload httpd
+fi
 
 %changelog
 * Sun Jul 05 2020 stephane de Labrusse <stephdl@de-labrusse.fr> 1.1.8
